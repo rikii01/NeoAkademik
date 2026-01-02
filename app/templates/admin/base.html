@@ -1,0 +1,115 @@
+    <!doctype html>
+    <html lang="id" class="dark">
+    <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{{ title or "Admin Panel" }}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+            colors: {
+                rb: {
+                bg: "#050A14",
+                panel: "#0B1430",
+                panel2: "#0A1B3D",
+                border: "#1E3A8A",
+                text: "#E6F0FF",
+                muted: "#93C5FD",
+                neon: "#38BDF8",
+                neon2: "#60A5FA",
+                danger: "#FB7185"
+                }
+            },
+            boxShadow: {
+                neon: "0 0 0 1px rgba(56,189,248,.30), 0 0 22px rgba(56,189,248,.18)"
+            }
+            }
+        }
+        }
+    </script>
+    </head>
+
+    <body class="bg-rb-bg text-rb-text">
+    <div class="min-h-screen flex">
+
+        <!-- Sidebar -->
+        <aside class="hidden md:block w-64 bg-rb-panel border-r border-rb-border">
+        <div class="p-5 border-b border-rb-border">
+            <div class="text-lg font-extrabold tracking-wide">
+            <span class="text-rb-neon">Neo</span>Akademik
+            </div>
+            <div class="text-xs text-rb-muted mt-1">CRUD • Admin</div>
+        </div>
+
+        <nav class="p-3 space-y-1">
+            <a href="{{ url_for('admin.dashboard') }}"
+            class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-rb-panel2 border border-transparent hover:border-rb-border">
+            <span class="text-rb-neon">▣</span><span>Dashboard</span>
+            </a>
+
+            <a href="{{ url_for('admin.mahasiswa_list') }}"
+            class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-rb-panel2 border border-transparent hover:border-rb-border">
+            <span class="text-rb-neon">▦</span><span>Mahasiswa</span>
+            </a>
+
+            <div class="pt-3 mt-3 border-t border-rb-border">
+            <a href="{{ url_for('auth.logout') }}"
+                class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-rb-panel2 border border-transparent hover:border-rb-border text-rb-danger">
+                <span>⟲</span><span>Logout</span>
+            </a>
+            </div>
+        </nav>
+        </aside>
+
+        <!-- Main -->
+        <main class="flex-1">
+        <!-- Topbar -->
+        <header class="bg-rb-panel border-b border-rb-border">
+            <div class="px-4 md:px-8 py-4 flex items-center justify-between">
+            <div>
+                <h1 class="text-lg font-semibold">{{ title or "Dashboard" }}</h1>
+                <p class="text-sm text-rb-muted">Universitas Almuslim</p>
+            </div>
+            <div class="text-sm text-rb-muted">
+                User: <span class="text-rb-text font-semibold">{{ current_user.username }}</span>
+                <span class="mx-2">•</span>
+                Role: <span class="text-rb-neon font-semibold">{{ current_user.role }}</span>
+            </div>
+            </div>
+        </header>
+
+        <!-- Flash -->
+        <div class="px-4 md:px-8 pt-6">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="space-y-2">
+                {% for category, msg in messages %}
+                    <div class="rounded-xl px-4 py-3 text-sm border shadow-neon
+                    {% if category == 'success' %}
+                        bg-rb-panel2 border-rb-border text-rb-text
+                    {% else %}
+                        bg-rb-panel2 border-rb-border text-rb-danger
+                    {% endif %}">
+                    {{ msg }}
+                    </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        <!-- Content -->
+        <section class="px-4 md:px-8 py-6">
+            <div class="bg-rb-panel border border-rb-border rounded-2xl shadow-neon p-4 md:p-6">
+            {% block content %}{% endblock %}
+            </div>
+        </section>
+        </main>
+
+    </div>
+    </body>
+    </html>

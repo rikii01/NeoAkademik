@@ -1,0 +1,105 @@
+  {% extends "admin/base.html" %}
+  {% block content %}
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div class="bg-rb-panel2 border border-rb-border rounded-2xl shadow-neon p-5">
+      <div class="text-sm text-rb-muted">Total Mahasiswa</div>
+      <div class="text-3xl font-extrabold mt-2 text-rb-neon">{{ total }}</div>
+    </div>
+
+    <div class="bg-rb-panel2 border border-rb-border rounded-2xl shadow-neon p-5">
+      <div class="text-sm text-rb-muted">Monitoring</div>
+      <div class="text-lg font-semibold mt-2"> Grafik Mahasiswa</div>
+      <div class="text-xs text-rb-muted mt-1">Universitas Almuslim</div>
+    </div>
+
+    <div class="bg-rb-panel2 border border-rb-border rounded-2xl shadow-neon p-5">
+      <div class="text-sm text-rb-muted">Akses Cepat</div>
+      <a href="{{ url_for('admin.mahasiswa_list') }}"
+        class="inline-flex mt-3 items-center justify-center rounded-xl bg-rb-neon text-slate-900 font-semibold px-4 py-2 hover:brightness-110 transition">
+        Kelola Mahasiswa
+      </a>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+
+    <!-- CHART 1 -->
+    <div class="bg-rb-panel2 border border-rb-border rounded-2xl shadow-neon p-5">
+      <h2 class="text-lg font-bold mb-3">
+        <span class="text-rb-neon">Chart 1</span> Mahasiswa per Prodi
+      </h2>
+      <div class="h-[320px]">
+        <canvas id="chartProdi"></canvas>
+      </div>
+    </div>
+
+    <!-- CHART 2 -->
+    <div class="bg-rb-panel2 border border-rb-border rounded-2xl shadow-neon p-5">
+      <h2 class="text-lg font-bold mb-3">
+        <span class="text-rb-neon">Chart 2</span> Prodi per Fakultas (Stacked)
+      </h2>
+      <div class="h-[320px]">
+        <canvas id="chartProdiFakultas"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DATA JSON -->
+  <script id="data-prodi" type="application/json">
+    {{ {"labels": prodi_labels, "values": prodi_values} | tojson }}
+  </script>
+
+  <script id="data-prodi-fakultas" type="application/json">
+    {{ {"labels": fakultas_labels, "datasets": prodi_per_fakultas_datasets} | tojson }}
+  </script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const prodiData = JSON.parse(document.getElementById("data-prodi").textContent);
+    const pfData = JSON.parse(document.getElementById("data-prodi-fakultas").textContent);
+
+    // ===== Chart 1: Bar per prodi =====
+    new Chart(document.getElementById('chartProdi'), {
+      type: 'bar',
+      data: {
+        labels: prodiData.labels,
+        datasets: [{
+          label: 'Jumlah Mahasiswa',
+          data: prodiData.values,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#E6F0FF' } } },
+        scales: {
+          x: { ticks: { color: '#93C5FD' }, grid: { color: 'rgba(30,58,138,.35)' } },
+          y: { ticks: { color: '#93C5FD' }, grid: { color: 'rgba(30,58,138,.35)' }, beginAtZero: true }
+        }
+      }
+    });
+
+    // ===== Chart 2: Stacked bar prodi per fakultas =====
+    new Chart(document.getElementById('chartProdiFakultas'), {
+      type: 'bar',
+      data: {
+        labels: pfData.labels,
+        datasets: pfData.datasets
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#E6F0FF' } } },
+        scales: {
+          x: { stacked: true, ticks: { color: '#93C5FD' }, grid: { color: 'rgba(30,58,138,.35)' } },
+          y: { stacked: true, ticks: { color: '#93C5FD' }, grid: { color: 'rgba(30,58,138,.35)' }, beginAtZero: true }
+        }
+      }
+    });
+  </script>
+
+  {% endblock %}

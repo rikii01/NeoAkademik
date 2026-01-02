@@ -1,0 +1,56 @@
+    <!doctype html>
+    <html lang="id" class="dark">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{{ title or "User" }}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+            colors: {
+                rb: {
+                bg: "#050A14",
+                panel: "#0B1430",
+                panel2: "#0A1B3D",
+                border: "#1E3A8A",
+                text: "#E6F0FF",
+                muted: "#93C5FD",
+                neon: "#38BDF8",
+                neon2: "#60A5FA",
+                danger: "#FB7185"
+                }
+            },
+            boxShadow: {
+                neon: "0 0 0 1px rgba(56,189,248,.30), 0 0 22px rgba(56,189,248,.18)"
+            }
+            }
+        }
+        }
+    </script>
+    </head>
+
+    <body class="bg-rb-bg text-rb-text">
+    <header class="bg-rb-panel border-b border-rb-border">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div>
+            <div class="font-extrabold tracking-wide">
+            <span class="text-rb-neon">Neo</span>Akademik
+            </div>
+            <div class="text-xs text-rb-muted">Universitas • Almuslim</div>
+        </div>
+        <a href="{{ url_for('auth.logout') }}"
+            class="text-sm text-rb-danger hover:underline">
+            Logout
+        </a>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-6">
+        {% block content %}{% endblock %}
+    </main>
+    </body>
+    </html>

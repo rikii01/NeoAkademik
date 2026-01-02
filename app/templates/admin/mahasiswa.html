@@ -1,0 +1,99 @@
+  {% extends "admin/base.html" %}
+  {% block content %}
+
+  <div class="relative overflow-x-auto bg-rb-panel2 border border-rb-border rounded-2xl shadow-neon">
+
+    <!-- HEADER -->
+    <div class="px-4 py-3 border-b border-rb-border flex items-center justify-between">
+      <div>
+        <h2 class="font-semibold">Data Mahasiswa</h2>
+        <p class="text-sm text-rb-muted">
+          Menampilkan {{ (page-1)*per_page + 1 }}
+          –
+          {{ (page-1)*per_page + mahasiswa|length }}
+          dari {{ total }} data
+        </p>
+      </div>
+
+      <a href="{{ url_for('admin.mahasiswa_tambah') }}"
+        class="rounded-xl bg-rb-neon text-slate-900 font-semibold px-4 py-2 hover:brightness-110 transition">
+        + Tambah
+      </a>
+    </div>
+
+    <!-- TABLE -->
+    <table class="w-full text-sm text-left">
+      <thead class="bg-rb-panel text-rb-muted border-b border-rb-border">
+        <tr>
+          <th class="px-4 py-3">No</th>
+          <th class="px-4 py-3">NPM</th>
+          <th class="px-4 py-3">Nama</th>
+          <th class="px-4 py-3">Fakultas</th>
+          <th class="px-4 py-3">Prodi</th>
+          <th class="px-4 py-3">Aksi</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-rb-border">
+        {% for m in mahasiswa %}
+        <tr class="hover:bg-rb-panel">
+          <td class="px-4 py-3">{{ loop.index + (page-1)*per_page }}</td>
+          <td class="px-4 py-3">{{ m.nim }}</td>
+          <td class="px-4 py-3 font-medium">{{ m.nama }}</td>
+          <td class="px-4 py-3">{{ m.fakultas }}</td>
+          <td class="px-4 py-3">{{ m.prodi }}</td>
+          <td class="px-4 py-3 flex gap-2">
+            <a href="{{ url_for('admin.mahasiswa_edit', id=m.id) }}"
+              class="text-rb-neon hover:underline">Edit</a>
+            <form method="POST"
+                  action="{{ url_for('admin.mahasiswa_hapus', id=m.id) }}"
+                  onsubmit="return confirm('Hapus data?')">
+              <button class="text-red-400 hover:underline">Hapus</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- PAGINATION -->
+    <nav class="flex items-center justify-between px-4 py-3 border-t border-rb-border text-sm">
+      <span class="text-rb-muted">
+        Page {{ page }} of {{ total_pages }}
+      </span>
+
+      <div class="flex gap-1">
+        {% if page > 1 %}
+        <a href="{{ url_for('admin.mahasiswa_list', page=page-1) }}"
+          class="px-3 py-1 rounded-lg border border-rb-border hover:bg-rb-panel">
+          Prev
+        </a>
+        {% endif %}
+
+        {% for p in range(1, total_pages+1) %}
+          {% if p == page %}
+            <span class="px-3 py-1 rounded-lg bg-rb-neon text-slate-900 font-semibold">
+              {{ p }}
+            </span>
+          {% elif p <= 3 or p > total_pages-2 or (p >= page-1 and p <= page+1) %}
+            <a href="{{ url_for('admin.mahasiswa_list', page=p) }}"
+              class="px-3 py-1 rounded-lg border border-rb-border hover:bg-rb-panel">
+              {{ p }}
+            </a>
+          {% elif p == 4 or p == total_pages-3 %}
+            <span class="px-2">…</span>
+          {% endif %}
+        {% endfor %}
+
+        {% if page < total_pages %}
+        <a href="{{ url_for('admin.mahasiswa_list', page=page+1) }}"
+          class="px-3 py-1 rounded-lg border border-rb-border hover:bg-rb-panel">
+          Next
+        </a>
+        {% endif %}
+      </div>
+    </nav>
+
+  </div>
+
+  {% endblock %}

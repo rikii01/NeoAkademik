@@ -1,0 +1,83 @@
+    <!doctype html>
+    <html lang="id" class="dark">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{{ title or "Login" }}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+            colors: {
+                rb: {
+                bg: "#050A14",
+                panel: "#0B1430",
+                panel2: "#0A1B3D",
+                border: "#1E3A8A",
+                text: "#E6F0FF",
+                muted: "#93C5FD",
+                neon: "#38BDF8",
+                neon2: "#60A5FA",
+                danger: "#FB7185"
+                }
+            },
+            boxShadow: {
+                neon: "0 0 0 1px rgba(56,189,248,.30), 0 0 22px rgba(56,189,248,.18)"
+            }
+            }
+        }
+        }
+    </script>
+    </head>
+
+    <body class="bg-rb-bg text-rb-text">
+    <div class="min-h-screen flex items-center justify-center px-4">
+        <div class="w-full max-w-md bg-rb-panel border border-rb-border rounded-2xl p-6 shadow-neon">
+        <div class="mb-4">
+            <h1 class="text-xl font-extrabold tracking-wide">
+            <span class="text-rb-neon">Neo</span>Akademik
+            </h1>
+            <p class="text-sm text-rb-muted mt-1">Lihat Dan Monitoring Data Mahasiswa Universitas Almuslim</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class="mb-4 space-y-2">
+                {% for category, msg in messages %}
+                <div class="rounded-xl px-4 py-3 text-sm bg-rb-panel2 border border-rb-border shadow-neon
+                    {% if category == 'success' %} text-rb-text {% else %} text-rb-danger {% endif %}">
+                    {{ msg }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" class="space-y-3">
+            <div>
+            <label class="text-sm text-rb-muted">Username</label>
+            <input name="username" required
+                    class="mt-1 w-full rounded-xl bg-rb-panel2 border border-rb-border px-3 py-2 outline-none
+                            focus:ring-2 focus:ring-rb-neon text-rb-text placeholder:text-slate-500"
+                    placeholder="username">
+            </div>
+
+            <div>
+            <label class="text-sm text-rb-muted">Password</label>
+            <input type="password" name="password" required
+                    class="mt-1 w-full rounded-xl bg-rb-panel2 border border-rb-border px-3 py-2 outline-none
+                            focus:ring-2 focus:ring-rb-neon text-rb-text placeholder:text-slate-500"
+                    placeholder="••••••••">
+            </div>
+
+            <button class="w-full rounded-xl bg-rb-neon text-slate-900 font-semibold py-2 hover:brightness-110 transition">
+            Login
+            </button>
+        </form>
+        </div>
+    </div>
+    </body>
+    </html>

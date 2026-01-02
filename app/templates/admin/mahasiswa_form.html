@@ -1,0 +1,51 @@
+{% extends "admin/base.html" %}
+{% block content %}
+  <h1 class="text-xl font-bold py-2">Edit Mahasiswa</h1>
+  <form method="POST" class="form">
+
+    <div>
+    <label class="text-sm font-medium text-rb-muted">NIM</label>
+    <input name="nim" value="{{ data.nim if data else '' }}" required
+            class="mt-1 w-full rounded-xl bg-rb-panel2 border border-rb-border px-3 py-3 outline-none
+            focus:ring-2 focus:ring-rb-neon text-rb-text">
+    </div>
+
+    <div>
+    <label class="text-sm font-medium text-rb-muted">Nama</label>
+    <input name="nama" value="{{ data.nama if data else '' }}" required
+            class="mt-1 w-full rounded-xl bg-rb-panel2 border border-rb-border px-3 py-3 outline-none
+            focus:ring-2 focus:ring-rb-neon text-rb-text">
+    </div>
+
+    <div>
+    <label class="text-sm font-medium text-rb-muted">Prodi</label>
+    <input name="prodi" value="{{ data.prodi if data else '' }}" required
+            class="mt-1 w-full rounded-xl bg-rb-panel2 border border-rb-border px-3 py-3 outline-none
+            focus:ring-2 focus:ring-rb-neon text-rb-text">
+    </div>
+
+  <div>
+    <label class="text-sm font-medium text-rb-muted">Fakultas</label>
+    <input name="fakultas" value="{{ data.fakultas if data else '' }}" required
+          class="mt-1 w-full rounded-xl bg-rb-panel2 border border-rb-border px-3 py-3 outline-none
+                  focus:ring-2 focus:ring-rb-neon text-rb-text">
+  </div>
+
+<div class="flex items-center gap-3 pt-6">
+
+  <button
+    type="submit"
+    class="inline-flex items-center justify-center rounded-xl px-5 py-2.5 bg-rb-neon text-slate-900 font-semibold
+      shadow-neon hover:brightness-150 active:scale-95 transition">
+    Simpan
+  </button>
+
+  <a
+    href="{{ url_for('admin.mahasiswa_list') }}"
+    class="inline-flex items-center justify-center rounded-xl px-5 py-2.5
+    border border-rb-border bg-rb-panel2 text-rb-text hover:bg-rb-panel active:scale-95 transition">
+    Batal
+</a>
+</div>
+
+{% endblock %}
