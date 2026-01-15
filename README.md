@@ -81,50 +81,6 @@ Password: admin123
 
 ---
 
-## Database Structure
-
-### Table: mahasiswa
-- `id` (Primary Key)
-- `nim`
-- `nama`
-- `fakultas`
-- `prodi`
-
-### Table: users
-- `id`
-- `username`
-- `password`
-- `role`
-
----
-
-## Project Structure
-
-```
-finalpython/
-│
-├── app/
-│   ├── __init__.py
-│   ├── config.py
-│   ├── db.py
-│   ├── models.py
-│   ├── auth_routes.py
-│   ├── admin_routes.py
-│   ├── user_routes.py
-│   ├── templates/
-│   │   ├── admin/
-│   │   ├── user/
-│   │   └── auth/
-│   └── static/
-│
-├── create_admin.py
-├── create_user.py
-├── run.py
-└── README.md
-```
-
----
-
 ## How to Run the Application
 
 ### 1. Prerequisites
