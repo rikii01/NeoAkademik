@@ -1,6 +1,6 @@
-# CampusCore – Flask MySQL CRUD Application
+# NeoAkademik – Flask MySQL CRUD Application
 
-CampusCore is a web-based **Student Data Management System** developed using **Python (Flask Framework)** and **MySQL Database**.  
+NeoAkademik is a web-based **Student Data Management System** developed using **Python (Flask Framework)** and **MySQL Database**.  
 The application implements **CRUD functionality**, **user authentication**, **role-based access control**, and an **administrative dashboard with data visualization**.
 
 This project was developed for academic and learning purposes.
